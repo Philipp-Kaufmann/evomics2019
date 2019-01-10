@@ -1,6 +1,9 @@
 ---
 title: "Gitdown"
-output: github_document
+output:
+  bookdown::gitbook:
+    split_by: "section"
+    split_bib: no
 ---
 
 ```{r setup, include=FALSE}
