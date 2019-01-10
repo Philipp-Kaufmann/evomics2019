@@ -1,0 +1,24 @@
+---
+title: "RMD_goes_github"
+author: "Philipp"
+date: "1/10/2019"
+output:
+  html_document:
+    toc: true
+    theme: darkly
+author: Philipp
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Prefix
+
+please work
+
+# Formulas
+
+$$
+\frac{n^{2}}{n_{4}}=failure
+$$
