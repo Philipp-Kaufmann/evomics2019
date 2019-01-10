@@ -11,6 +11,10 @@ Including Code
 
 You can include R code in the document as follows:
 
+
+$$
+\frac{a}{b}
+$$
 ``` r
 summary(cars)
 ```
