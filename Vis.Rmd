@@ -145,3 +145,37 @@ dim(variantData)
 
 ## ggplot themes
 
+```{r plot16, echo=FALSE, fig.cap="Figure 16: try out themes"}
+p16 <- ggplot(variantData[variantData$type=='SNP',])+
+  geom_bar(aes(x = trv_type, fill = tier))+
+  facet_grid(variant~reference)+
+  theme_classic()+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 5), legend.position = 'top', axis.title.x = element_blank())
+p16
+```
+
+## changing the order of aesthetic mappings
+
+```{r plot20, echo=FALSE, fig.cap="Figure 20: re-ordering stuff"}
+variantData$reference <- factor(variantData$reference, levels = rev(levels(variantData$reference)))
+variantData$trv_type <- factor(variantData$trv_type, levels = rev(levels(variantData$trv_type)))
+
+p20 <- ggplot(data = variantData[variantData$type=='SNP',])+
+  geom_bar(aes(x = trv_type, fill = tier))+
+  facet_grid(variant~reference)+
+  theme_classic()+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 5),
+        legend.position = 'top', axis.title.x = element_blank())
+p20
+```
+
+## Saving ggplot2 plots
+
+```{r how to safe (gg)plots, echo=TRUE}
+pdf(file = 'p20.pdf', height = 8, width = 11)
+p20
+dev.off()
+
+ggsave('p20_2.pdf', device = 'pdf')
+```
+
