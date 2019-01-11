@@ -1,0 +1,488 @@
+---
+title: "Student Exercises | Intro to R"
+output:
+  html_document:
+    toc: true
+    theme: darkly
+author: Philipp
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(knitr)
+library(ggpubr)
+opts_chunk$set(tidy.opts=list(width.cutoff=60),tidy=TRUE)
+```
+
+## _Exercise 1.1: Exploring R Studio_
+1. Take a few minutes to familiarize yourself with the R studio environment by locating the following features:
+- The windows clockwise from top left are: the code editor, the workspace and history, the plots and files window, and the R console.
+- In the plots and files window, click on the packages and help tabs to see what they offer. 
+- See what types of new files can be made in R studio by clicking the top left icon- open a new R script.
+
+2. Now open the file called 'Exercises_for_R_Lectures.Rmd'. This file will serve as your digital notebook for parts of the workshop and contains the other exercises.
+
+_______________________________
+
+## _Exercise 1.2: Intro to `R Markdown` Files_
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+1. When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded `R` code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+2. Each code chunk begins and ends in the same way- with a fence (three dashes). You can further specify what you want to show up in your final document using the `echo` and `eval` commands in the opening line. Insert a few code chunks below using the `insert` tab at the top of this window. Then, change the `echo` and `eval` arguments to `TRUE` or `FALSE` and see how different combinations of these arguments change the output when you knit. I have done the first one for you. Notice too that each `R` code chunk requires a unique title argument (here 'cars variant 1'), or the Rmd will not knit. 
+
+```{r cars variant 1, echo=TRUE, eval=TRUE}
+summary(cars)
+```
+
+3. What do you think `echo` and `eval` do, based on your manipulations?
+  - In a new line press tab twice, add a `-` and a space, then type your answer (as I did here). This will indent your answer in RMarkdown (`knit` to visualize the difference). Use this format throughout the doc to format your answers.
+  - What are the defaults for `echo` and `eval`, based on your manipulations? 
+  - Answer
+    - `echo`= TRUE
+    - `eval`= TRUE
+
+_______________________________
+
+
+## _Exercise 1.3: Basic Mathematics in `R`_
+Insert a code chunk below and complete the following tasks:
+
+1. Add and subtract
+2. Multiply and divide
+3. Raise a number to a power using the ^ symbol
+4. Create a more complex equation involving all of these operations to convince yourself that `R` follows the normal priority of mathematical evaluation
+
+```{r substraction, echo=FALSE}
+3-2
+3+2
+```
+```{r Multiply, echo=FALSE}
+3*2
+3/2
+```
+```{r power of, echo=FALSE}
+2^3
+```
+
+```{r super complex, echo=FALSE}
+x <- 2
+r <- 4
+(x^2*r)/(3-r)-3
+```
+
+$$
+\frac{x^{2}*r}{3-r}+5
+$$
+CO~2~ noice^23^
+
+
+_______________________________
+
+
+## _Exercise 1.4: Assigning Variables and Arithmetic Functions in `R`_
+Insert a code chunk below and complete the following tasks:
+
+1. Assign three variables using basic mathematical operations
+```{r assigning values}
+r <- 3+2
+x <- r/2
+y <- r^2
+```
+
+2. Take the log of your three variables
+
+```{r log}
+log(r)
+log(x)
+log(y)
+```
+
+3. Use the print function to display your most complex variable
+
+```{r print}
+print(y)
+```
+
+4. Use the `concatenate` function to print a sentence
+
+```{r concatenate}
+paste('asdf','asefse', sep = "'hi'")
+```
+
+
+_______________________________
+
+
+## _Exercise 1.5: Vectors and Factors_
+Insert a code chunk below and complete the following tasks:
+
+1. Create a numeric vector using the `c` function
+
+```{r 1.5.1, echo=FALSE}
+v1 <- c(2,1,1:4,3)
+```
+
+2. Create a multi-level character factor using the `c` function
+
+```{r 1.5.2, echo=FALSE}
+v2 <- as.factor(c('a','b','c'))
+levels(v2)
+```
+
+3. Use `str` and `class` to evaluate your variables
+
+
+```{r 1.5.3, echo=FALSE}
+str(v1)
+str(v2)
+class(v1)
+class(v2)
+```
+
+_______________________________
+
+
+## _Exercise 1.6: Basic Statistics_
+Insert a code chunk below and complete the following tasks:
+
+1. Create a vector and calculate the `mean`, `sd`, `sum`, `length`, and `var`
+
+```{r 1.6.1, echo=FALSE}
+mean(v1)
+sd(v1)
+sum(v1)
+length(v1)
+var(v1)
+```
+
+2. Use the `log` and `sqrt` functions on your vector
+
+```{r 1.6.2, echo=FALSE}
+log(v1)
+sqrt(v1)
+```
+
+3. What happens when you try to apply these functions to a factor?
+
+```{r 1.6.3, echo=FALSE, warning=TRUE, eval=FALSE}
+log(v2)
+```
+
+4. Type the first couple letters of a function within your R code chunk, then hit tab- what happens? 
+- What if you press tab with you cursor inside the function parentheses? 
+
+    - auto complete
+    - suggestions
+  
+  
+_______________________________
+
+
+## _Exercise 1.7: Creating Larger Vectors and Random Sampling_
+Complete the following tasks in the codechunk below:
+- Note: If you ever want someone else to be able to perfectly reproduce your results, always set the random seed at the top. Any number will do. Note that it never hurts to set the seed, *but* robust results should always stand up to random number generators. 
+
+1. Create a vector with 100 elements using the `seq` function and calculate two basic statistics on your vector
+
+```{r 1.7.1, echo=FALSE}
+v1 <- seq(0,100, 1)
+mean(v1)
+median(v1)
+```
+
+2. Create a variable and `sample` it with equal probability 
+- Can you figure out what the arguments in the parentheses mean?
+- Try varying the arguments to see what happens.
+
+```{r 1.7.2, echo=FALSE}
+t <- rnorm(100, mean = 3, sd = .3)
+i <- sample(t, 30)
+ii <- sample(t, 72, replace = F)
+iii <- sample(t, 72, replace = T)
+```
+
+3. Create a normally distributed variable of 10000 elements using the `rnorm` function then `sample` that distribution with and without replacement
+
+```{r, eval=FALSE}
+a <- rnorm(10000, 0, 1)
+b <- sample(a, 1000, replace = T)
+c <- sample(a, 1000, replace = F)
+```
+
+4. Use `hist`, `curve`, and `dnorm` to plot your normally distributed variable
+
+```{r setSeed , eval=FALSE}
+set.seed(1415)
+hist(a)
+curve(a, from = min(a), to = max(a), add = T)
+dnorm(a)
+```
+
+
+## Including Plots
+You can also embed plots in your pdf document (`knit` to view), for example:
+```{r pressure, echo=FALSE, out.width='50%'}
+plot(pressure)
+```
+
+- Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+- Note that you can also alter the size of the plot in the chunk header (`{}`) section.
+
+
+_______________________________
+
+
+## _Exercise 1.8: Basic Visualization_
+Insert a code chunk below and complete the following tasks, make sure to label all plot axes and have fun with colors!
+
+1. Create a variable using `seq` and make two different plots by changing the `type` argument 
+2. Create a normally distributed variable using `rnorm` and make two different plots using `hist` by varying the `breaks` argument (what does `breaks` appear to do?)
+3. Modify your `par()` arguments to create a composite figure of the above graphs. 
+
+_______________________________
+
+## _Exercise 1.9: Creating a Data Frame and Evaluating Class_
+Insert a code chunk below and complete the following tasks:
+
+1. Recreate the dataframe from the slides by creating each vector then using `data.frame`
+
+```{r dataframe, echo=FALSE}
+habitat <- as.factor(c('mixed','wet','wet','wet', 'dry','dry', 'dry','mixed'))
+temp <- c(3.4,3.4,8.4,3,5.6,8.1,8.3,4.5)
+elevation <- c(0,9.2,3.8,5,5.6,4.1,7.1,5.3)
+
+mydata <- data.frame(habitat,temp,elevation, row.names = (c('Reedy Lake', 'Pearcadale', 'Warneet', 'Cranbourne', 'Lysterfield', 'Red Hill', 'Devilben', 'Olianda')))
+
+mydata
+```
+
+2. Assign rownames to your dataframe using `rownames` and `c`
+3. Get class assignments for your whole dataframe using `str`
+
+```{r 1.9.3, echo=TRUE}
+str(mydata)
+```
+
+4. Calculate the `mean` of each numeric variable 
+
+```{r 1.9.4, echo=TRUE}
+tem <- c(tapply(mydata$temp, mydata$habitat, mean),mean(mydata$temp))
+ele <- c(tapply(mydata$elevation, mydata$habitat, mean), mean(mydata$elevation))
+hab <- c(levels(mydata$habitat), 'total')
+
+rbind(hab, tem, ele)
+```
+
+5. Make a descriptive plot of your choosing
+
+```{r 1.9.5, echo=FALSE}
+ggboxplot(mydata, x = 'habitat', combine = TRUE,
+            y = c('temp','elevation'))
+```
+
+6. What happens when you use the functions `head` and `tail` on your dataframe?
+
+- It shows the first few / last few rows of the `data.frame`
+
+_______________________________
+
+
+## _Exercise 1.10: Datasets and Indexing_
+By opening this .Rmd file, you have automatically set your working directory to the folder containing it. Now, you can access data from this directory or a sub-directory in this folder. You can do this by including that part of the path in the `read.csv` function. Insert a code chunk below and complete the following tasks:
+
+1. Save the file we created together in a sub-directory of your current working directory 
+
+```{r 1.10.1, echo=FALSE}
+write.csv(mydata, file = 'data/mydata')
+```
+
+2. Use `read.csv` to read your file in  
+3. Use `str` and `head` to view your data structure
+4. Use the `$` and `[ ]` operators to select out different parts of the dataframe.
+5. Plot temperature over elevation using `$`.
+7. Use the `tapply` function to calculate the `mean` and `var` of temp by habitat type and temp by elevation. 
+8. Export your data frame with a different file name
+
+
+_______________________________
+
+
+## _Excercise 2.1: Git and GitHub basics_
+- Make your GitHub account https://github.com/
+
+- Create a new directory on the terminal using `mkdir directory_name` and clone the evomics_stat_2019 repo into that directory using the command 'git clone https://github.com/wcresko/evomics_stat_2019.git'
+
+- Create a new repo for yourself on Github by going to 'Your repositories' in the dropdown menu at the right and selecting 'new'
+
+- Clone your new repo into a new local directory
+
+- Push a file to your new repo:
+    1. Create a new file in your new local directory
+    2. Type `git status` to see what files can be pushed. red= no, green=yes
+    3. To make files in your current directory available for a push use `git add .`
+    4. Check the status again- should be green
+    5. Create a descriptive commit using `git commit -am "descriptive message here"
+    6. `git push`
+    7. Check Github to see what happened
+    
+- Clone your neighbor's repo, change a file, and push it
+    1. Clone your neighbor's repo using `git clone url_for_friend`
+    2. Make a change to your local version of their test file and save it
+    3. Use the `add` and `status` commands to prep your file for a push
+    4. Use `commit` to annotate what you changed
+    5. `push` it!
+    
+- Pull down changes that your friend made
+    1. In instances where you are not sure if your local branch is up to date with the master, use `git fetch` and then `git status` to see how many commits you have missed
+    2. Then type `git merge origin/master` to sync everything between your computer and the repository
+    3. You can also pull down changes that your neighbor made in your new repo using `git pull`- which runs a fetch and merge for you, *but* can cause your local directory to become conflicted if you have made changes locally that have not been pushed.
+
+- Look at your Github repo
+    1. Where did the commit message end up?
+    2. Look at the commits tab- what information can you find here?
+    
+- Check out GitHub Pages: https://pages.github.com/
+    - Example from Bill's stats course at UO: In the 'README.md file in Bill's UO_ABS repo you will find a link for the GitHub Pages website. 
+
+
+_______________________________
+
+
+## _Excercise 2.2: RMarkdown advanced_
+
+Getting more familiar with RMarkdown
+
+- If you want to beautify your output, it always starts here. 
+- There are many options, and a few are laid out below. 
+- The `knitr` package has lots of options explained 
+  - [here](http://yihui.name/knitr/options#chunk_options) and 
+  - [here](http://kbroman.org/knitr_knutshell/pages/Rmarkdown.html) in detail. 
+
+- Part of configuring your script is loading the correct packages. Always load all packages together at the top in your `config` chunk. That way future users will know exactly what they need to install. 
+
+```{r config, echo=TRUE}
+library(scales)
+library(knitr)
+opts_chunk$set(background='gray80', tidy=FALSE, cache=FALSE, comment='',
+               dpi=72, fig.path='RMDfigs/', fig.width=4, fig.height=4)
+```
+
+
+2.  Generate fake data
+- The `x` value is just numbers 1-100 for an x axis value. This might be time or distance, etc.  
+- For the response variable, generate a random normal distribution with the `rnorm` function, 
+and then add a trend with the `seq` function. 
+- Then we'll add some fake treatments with `letters`. 
+
+```{r simulateData}
+# setwd('~/Desktop')
+
+x <- 1:100
+y <- rnorm(100, sd=3) + seq(10.05, 20, 10/100)
+z <- factor(rep(letters[1:5], each=20))
+dat <- data.frame(x, y, z)
+```
+
+3. Tables in `knitr`
+- This is an ugly way to preview data or display tables. 
+```{r previewUglyData}
+head(dat)
+```
+
+- The `knitr` package has a simple built-in function for dealing with tables. This works well in either html or pdf output. 
+```{r previewData, results='asis'}
+kable(head(dat))
+```
+
+
+<!-- This is a comment in html, which is a great way to include comments in an RMarkdown document. 
+The following two code chunks are also hidden - because of the 'echo=FALSE' command. 
+The code is also not evaluated in R - notice the 'eval=FALSE' command. --> 
+
+
+```{r reassignFactor, eval=FALSE, echo=FALSE}
+# reassign the factor levels to change model order downstream. 
+# dat$z <- factor(dat$z, levels=c('b', 'c', 'd', 'e', 'a'))
+```
+
+```{r removeCrappySamples, eval=TRUE, echo=TRUE}
+# remove a few samples that we don't want to analyze. 
+# dat <- dat[-c(3, 4, 5, 12), ]
+```
+
+4. R commands embedded in prose
+
+- One of the best features in `knitr` and RMarkdown generally, is the ability to embed real R commands in sentences, so that you can report actual values instead of constantly copying and pasting when results change a little bit. 
+- This table has `r nrow(dat)` rows and `r ncol(dat)` columns. The 'x' variable starts at `r min(dat$x)` and ends at `r max(dat$x)`. 
+- `r mean(rnorm(100))`
+
+5. Formatting text in RMarkdown
+
+- Create a formatted list with 2 levels and 2 sub levels; make one of the sub levels italic and the main levels bold
+- Create a quote from one of your new workshop friends
+    
+6. LaTeX in RMarkdown
+
+- Insert three symbols of your choice
+- Recreate an equation from the slides and insert it in-line and fenced
+
+_______________________________
+
+
+## _Exercise 2.3: RNAseq Example Dataset_
+By opening this .Rmd file, you have automatically set your working directory to the folder containing it. Now, you need to access data from a sub-directory in this folder. You can do this by including that part of the path in the `read.csv` function. Insert a code chunk below and complete the following tasks:
+
+1. Read in the provided file 'RNAseq_sample_data.csv' from the data folder, tab complete can also be helpful to auto-populate paths (<-read.csv('data/RNAseq...', header=T))
+
+```{r 2.3.1, echo=F}
+rna <- read.csv('data/RNAseq_sample_data.csv', header = T)
+```
+
+2. Use `str` and `head` to get an idea of the data structure
+
+```{r 2.3.2, echo=F}
+str(rna)
+head(rna)
+```
+
+3. Create a tibble using this dataset (the function is `as_tibble`)
+
+```{r 2.3.3, echo=F}
+library(dpl)
+
+```
+
+
+
+_______________________________
+
+
+## _Exercise 2.4: Data Wrangling_
+Insert a code chunk below and complete the following tasks:
+
+1. `Select` all of the categorical variables and only 4 of the gene count variables and put them into a new variable
+2. `Mutate` each of the 4 gene expression values by performing a square root transformation making a new variable for each of the original (keep all 8 in the dataset).
+3. `Summarise` the mean and standard deviation for each of the gene count variables grouped by the ‘Microbiota’ and ‘Genotype’ categorical variables (hint, using `group_by` may make this easier; also remember your `na.rm=TRUE`)
+4. Create a histogram for one of the original gene expression variables, and one of the derived variables 
+5. Create a box plot for one of the original gene expression variables, and one of the derived variables, split by treatment
+
+_______________________________
+
+
+## _Exercise 2.5: Graphical Communication with ggplot2_
+Insert a code chunk below and complete the following tasks using your gene expression tibble:
+
+1. Create a barplot of microbiota and genotype- what does this tell you about experimental design? What if you randomly sample 100 rows with replacement (use `mydata[sample(nrow(mydata), 100, replace=T), ]`) - does the plot change?
+2. Create a histogram and freq polygram of the expression of GeneX. What is the best binwidth?
+3. Create a boxplot of the expression of GeneX by microbiota/genotype combination. Reorder it by median expression and flip the coordinates.
+4. Explore the coexpression patterns among your genes by plotting a couple pairwise combinations using `geom_point`. Plot your most interesting coexpression by treatment using `facet_wrap`.
+5. Combine layers of your coexpression plot by adding a smoothing line with standard error. Be sure to label your axes. 
+6. Open a new RMarkdown `flexdashboard` template and create a multi panel figure of your choice.
