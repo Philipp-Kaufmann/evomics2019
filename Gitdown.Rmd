@@ -1,6 +1,10 @@
 ---
 title: "Gitdown"
-output: github_document
+output:
+  github_document:
+    toc: true
+    theme: darkly
+author: Philipp
 ---
 
 ```{r setup, include=FALSE}
