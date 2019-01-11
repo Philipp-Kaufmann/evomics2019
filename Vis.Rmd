@@ -1,0 +1,116 @@
+---
+title: "Visualisation"
+author: "Philipp"
+date: "1/11/2019"
+output:
+  bookdown::html_document2:
+    toc: true
+    theme: darkly
+---
+
+# Introduction to ggplot2
+
+Learning how to use the ggplot2 package to visualize sequence data. 
+
+```{r Setup, echo=FALSE}
+library(ggplot2)
+```
+
+```{r Read&setup_data, echo=FALSE, include=FALSE}
+variantData <- read.delim("http://genomedata.org/gen-viz-workshop/intro_to_ggplot2/ggplot2ExampleData.tsv")
+head(variantData)
+variantData[1:5, c(1:9,16,18)]
+variantData$tumor_COV <- variantData$tumor_ref_count + variantData$tumor_var_count
+```
+
+## basics
+
+The following results in the same graphic, however, be aware in figure p2 that you have to follow this order, or at least the `geom_point()` argument with the `aes()` in the end, otherwise the plot kinda does not work.
+
+```{r plot1&2, echo=TRUE, fig.cap="Figure 1&2: Comparison of two ways to create the same plot"}
+p1 <- ggplot(data = variantData, aes(x = tumor_VAF, y = tumor_COV))
+p1 <- p1 + geom_point()
+p1 <- p1 + theme_classic()
+p1 <- p1 + ggtitle('p1')
+p1
+
+p2 <- ggplot()+
+  theme_classic()+
+  ggtitle('p2')+
+  geom_point(data = variantData, aes(x = tumor_VAF, y = tumor_COV))
+p2
+```
+
+Now we are going to spead out the data a little more...
+
+```{r plot3, echo=FALSE, fig.cap="Figure 3: Jitter"}
+p3 <- ggplot()+
+  geom_point(data = variantData, aes(x = chromosome_name, y = tumor_VAF), position = 'jitter')
+p3
+```
+
+Limting the axis of the plots
+
+```{r plot4, echo=FALSE, fig.cap="Figure 4: limiting the axis"}
+p4 <- p1 + scale_y_continuous(limits = c(0,500))
+p4
+```
+
+```{r plot5, echo=FALSE, fig.cap="Figure 5: transforming the actual values in the data frame"}
+p5 <- ggplot()+
+  theme_classic()+
+  geom_point(data = variantData, aes(x = tumor_VAF, y = log2(tumor_COV)), size = .7, shape = 3)
+p5
+```
+
+```{r plot6, echo=FALSE, fig.cap="Figure 6: transform the axis using ggplot"}
+p6 <- p1 + scale_y_continuous(trans = 'log2') + ylab('log2(tumor_COV)')
+p6
+```
+
+## Applying different aesthetics
+
+```{r plot7, echo=FALSE, fig.cap="Figure 7: what happens when we try to add color within the aesthetics?"}
+p7 <- ggplot()+
+  geom_point(data = variantData, aes(x = tumor_VAF, y = tumor_COV, color = 'blue'))+
+  scale_y_continuous(trans = 'log2')
+p7
+```
+
+```{r plot8, echo=FALSE, fig.cap="Figure 8: and what happens when we try to add color within the geom"}
+p8 <- ggplot()+
+  geom_point(data = variantData, aes(x = tumor_VAF, y = tumor_COV), color = 'blue')+
+  scale_y_continuous(trans = 'log2')
+p8
+```
+
+```{r plot9, echo=FALSE, fig.cap="Figure 9: get a density curve of tumor vafs"}
+p9 <- ggplot()+
+  geom_density(data = variantData, aes(x = tumor_VAF, color = dataset))
+p9
+```
+
+`adjust =` in the `geom_density` allows for smoothing of the density function.
+
+```{r plot10, echo=FALSE, fig.cap="Figure 10: let's add a bit more detail"}
+p10 <- ggplot()+
+  geom_density(data = variantData, aes(x = tumor_VAF, fill = dataset), alpha = .5, color = 'black', adjust = .5)
+p10
+```
+
+```{r plot11, echo=FALSE, fig.cap="Figure 11: and let's change the colors some more"}
+p11 <- p10+
+  scale_fill_brewer(palette = 'Set1')
+p11
+```
+
+```{r plot12, echo=FALSE, fig.cap="Figure 12: putting different colors..."}
+p12 <- ggplot()+
+  geom_density(data = variantData, aes(x = tumor_VAF, fill = dataset, color = dataset))+
+  scale_fill_brewer(palette = 'Greys')+
+  theme_classic()
+p12
+```
+
+## Faceting
+
