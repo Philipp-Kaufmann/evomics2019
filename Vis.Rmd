@@ -114,3 +114,34 @@ p12
 
 ## Faceting
 
+```{r plot13, echo=FALSE, fig.cap="Figure 13: relation of tiers to mutation type"}
+p13 <- ggplot(data = variantData[variantData$type == 'SNP',])+
+  geom_bar(aes(x = trv_type, fill = tier))+
+  scale_fill_brewer(palette = 'Set1')+
+  theme_classic()
+p13
+```
+
+```{r plot14, echo=FALSE, fig.cap="Figure 14: which reference base is most often mutated"}
+p14 <- p13 + facet_wrap(~reference)
+p14
+```
+
+```{r plot15, echo=FALSE, fig.cap="Figure 15: which transition and transversions occur mist frequently"}
+p15 <- p14 +
+  facet_grid(variant~reference)+
+  theme(axis.text.x = element_text(angle = 90, size = 3))
+p15
+```
+
+Selecting form the `data.frame`
+
+```{r selecting, echo=TRUE}
+x <- variantData[variantData$type=='SNP',]
+dim(x)
+dim(variantData)
+#head(x)
+```
+
+## ggplot themes
+
