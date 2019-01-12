@@ -1,0 +1,10 @@
+name: testapp
+title:
+username:
+account: philipp-kaufmann
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 637812
+bundleId: 1809546
+url: https://philipp-kaufmann.shinyapps.io/testapp/
+when: 1547235613.05798

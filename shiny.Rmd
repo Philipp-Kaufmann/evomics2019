@@ -1,0 +1,26 @@
+---
+title: "shiny"
+author: "Philipp"
+date: "1/11/2019"
+output:
+  bookdown::html_document2:
+    toc: true
+    theme: darkly
+---
+
+# Example
+
+```{r setup, include=FALSE}
+library(shiny)
+```
+
+```{r examples in shiny}
+runExample('06_tabsets')
+```
+
+# Structure of a shiny app
+
+```{r run that shit}
+
+```
+

@@ -179,3 +179,44 @@ dev.off()
 ggsave('p20_2.pdf', device = 'pdf')
 ```
 
+## Wide vs. long foramt
+
+```{r wide vs. long, echo=TRUE}
+ggplot(Orange, aes(x = age, y = circumference))+
+  geom_point()
+
+library(reshape2)
+
+Orange2 <- melt(data=Orange, id.vars=c("Tree"))
+ggplot(Orange2, aes(x=value, fill=variable))+
+  geom_density()
+
+```
+
+# ggplot2 Practice examples
+
+```{r load data2, include=FALSE}
+tt <- read.delim("http://genomedata.org/gen-viz-workshop/intro_to_ggplot2/ggplot2ExampleData.tsv")
+tt <- tt[tt$dataset == "discovery",]
+```
+
+```{r P1, echo=FALSE, fig.cap="Fig.1) Violins"}
+library(plyr)
+variantDataCount <- count(tt, "Simple_name")
+variantDataMax <- aggregate(data=variantData, tumor_VAF ~ Simple_name, max)
+iii <- merge(variantDataMax, variantDataCount)
+#head(iii)
+
+P1 <- ggplot()+
+  geom_violin(data = tt, aes(x = Simple_name, y = tumor_VAF, fill = Simple_name))+
+  theme_classic()+
+  geom_point(data = tt, aes(x = Simple_name, y = tumor_VAF), position = 'jitter',
+             size = .5, shape = 4)+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 5))+
+  xlab('Sample')+
+  ylab('VAF')+
+  guides(fill=FALSE)+
+  geom_text(data = iii, aes(x = Simple_name, y = tumor_VAF + 5, label = freq))
+P1
+```
+
